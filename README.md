@@ -1,8 +1,20 @@
 # MoneyTalks Adyen Adapter
 
-A simple interface for integration with payment service providers. Don't let a specific vendor hold
-you hostage. MoneyTalks provides a simple and easy interface, with many common operations in Ruby callbacks
-lets you seamlessly attach vendor-specific code for easy integration.
+An adapter to be used with MoneyTalks
+
+## Installation
+
+Add this line to your application's Gemfile:
+
+    gem 'money_talks_adyen'
+
+Or install it yourself as:
+
+    $ gem install money_talks_adyen
+
+And finally execute:
+
+    $ bundle install
 
 ## Adyen
 
