@@ -14,7 +14,7 @@ module MoneyTalks
             basic_auth: [user, password],
             wsdl: wsdl,
             convert_request_keys_to: :lower_camelcase,
-            pretty_print_xml: MoneyTalks::dev? ? true : false
+            pretty_print_xml: MoneyTalks::dev?
             )
         end
 
@@ -40,7 +40,12 @@ module MoneyTalks
         end
           
         def authorize_payment(data)
-          connection_handler.call(:authorise, message: data.serialize_as(:payment_request))
+          begin
+            connection_handler.call(:authorise, message: data.serialize_as(:payment_request))
+          rescue Savon::HTTPError => error
+            Logger.log error.http.code
+            raise
+          end
         end
 
         def refund_payment(data)
