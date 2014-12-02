@@ -3,7 +3,7 @@ module MoneyTalks
     module Adyen
       class Adapter
 
-        attr_accessor :user, :password, :use_local_wsdl
+        attr_accessor :user, :password, :use_local_wsdl, :log_output
           
         # HACK =( Adyen's current published WSDL has no support for installments
         PUBLISHED_TEST_URL = "https://pal-test.adyen.com/pal/Payment.wsdl"
@@ -14,7 +14,8 @@ module MoneyTalks
             basic_auth: [user, password],
             wsdl: wsdl,
             convert_request_keys_to: :lower_camelcase,
-            pretty_print_xml: MoneyTalks::dev?
+            pretty_print_xml: MoneyTalks::dev?,
+            log: log_output || true
             )
         end
 
@@ -42,9 +43,9 @@ module MoneyTalks
         def authorize_payment(data)
           begin
             connection_handler.call(:authorise, message: data.serialize_as(:payment_request))
-          rescue Savon::HTTPError => error
-            Logger.log error.http.code
-            raise
+          rescue Savon::SOAPFault => error
+            binding.pry
+            raise 
           end
         end
 
