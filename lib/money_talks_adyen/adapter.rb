@@ -15,7 +15,7 @@ module MoneyTalks
             wsdl: wsdl,
             convert_request_keys_to: :lower_camelcase,
             pretty_print_xml: MoneyTalks::dev?,
-            log: log_output || true
+            log: log_output
             )
         end
 
