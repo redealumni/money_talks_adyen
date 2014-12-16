@@ -24,13 +24,13 @@ module MoneyTalks
         def wsdl
           case MoneyTalks.env.to_sym
             when :production
-              :use_local_wsdl ? local_wsdl(:production) : PUBLISHED_LIVE_URL
+              use_local_wsdl ? local_wsdl(:production) : PUBLISHED_LIVE_URL
             when :development
-              :use_local_wsdl ? local_wsdl(:development) : PUBLISHED_TEST_URL
+              use_local_wsdl ? local_wsdl(:development) : PUBLISHED_TEST_URL
             when :test
-              :use_local_wsdl ? local_wsdl(:test) : PUBLISHED_TEST_URL
+              use_local_wsdl ? local_wsdl(:test) : PUBLISHED_TEST_URL
             when :staging
-              :use_local_wsdl ? local_wsdl(:staging) : PUBLISHED_TEST_URL
+              use_local_wsdl ? local_wsdl(:staging) : PUBLISHED_TEST_URL
           end
         end
 
