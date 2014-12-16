@@ -6,8 +6,8 @@ module MoneyTalks
         attr_accessor :user, :password, :use_local_wsdl, :log_output
           
         # HACK =( Adyen's current published WSDL has no support for installments
-        PUBLISHED_TEST_URL = "https://pal-test.adyen.com/pal/Payment.wsdl"
-        PUBLISHED_LIVE_URL = "https://pal-live.adyen.com/pal/Payment.wsdl"
+        PUBLISHED_TEST_URL=  "https://pal-test.adyen.com/pal/servlet/Payment/v8?wsdl"
+        PUBLISHED_LIVE_URL = "https://pal-live.adyen.com/pal/servlet/Payment/v8?wsdl"
 
         def connection_handler
           @ws_client ||= Savon.client(
@@ -46,7 +46,6 @@ module MoneyTalks
           begin
             connection_handler.call(:authorise, message: data.serialize_as(:payment_request))
           rescue Savon::SOAPFault => error
-            binding.pry
             raise 
           end
         end
