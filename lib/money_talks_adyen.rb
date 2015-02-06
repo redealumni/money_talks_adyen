@@ -10,6 +10,7 @@ module MoneyTalks
     module Adyen
       autoload :Adapter, 'money_talks_adyen/adapter.rb'
       autoload :Payment, 'money_talks_adyen/payment.rb'
+      autoload :Error,   'money_talks_adyen/error.rb'
     end
   end
 end

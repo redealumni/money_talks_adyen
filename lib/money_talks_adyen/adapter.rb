@@ -4,9 +4,9 @@ module MoneyTalks
       class Adapter
 
         attr_accessor :user, :password, :use_local_wsdl, :log_output
-          
+
         # HACK =( Adyen's current published WSDL has no support for installments
-        PUBLISHED_TEST_URL=  "https://pal-test.adyen.com/pal/servlet/Payment/v8?wsdl"
+        PUBLISHED_TEST_URL = "https://pal-test.adyen.com/pal/servlet/Payment/v8?wsdl"
         PUBLISHED_LIVE_URL = "https://pal-live.adyen.com/pal/servlet/Payment/v8?wsdl"
 
         def connection_handler
@@ -41,13 +41,11 @@ module MoneyTalks
         def payment_decorator
           MoneyTalks::PSP::Adyen::Payment
         end
-          
+
         def authorize_payment(data)
-          begin
-            connection_handler.call(:authorise, message: data.serialize_as(:payment_request))
+          connection_handler.call(:authorise, message: data.serialize_as(:payment_request))
           rescue Savon::SOAPFault => error
-            raise 
-          end
+            raise MoneyTalks::PSP::Adyen::Error.new(error.message.match(/[0-9]{3}/).to_s)
         end
 
         def refund_payment(data)
@@ -56,11 +54,11 @@ module MoneyTalks
           rescue
           end
         end
-        
+
         def capture_payment(data)
           begin
             connection_handler.call(:capture, message: data.serialize(:modification_request))
-          rescue 
+          rescue
           end
         end
 
