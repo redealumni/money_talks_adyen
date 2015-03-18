@@ -51,7 +51,8 @@ module MoneyTalks
         def refund_payment(data)
           begin
             connection_handler.call(:refund, message: data.serialize_as(:modification_request))
-          rescue
+          rescue Savon::SOAPFault => error
+            raise MoneyTalks::PSP::Adyen::Error.new(error.message.match(/[0-9]{3}/).to_s)
           end
         end
 
